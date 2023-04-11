@@ -1,0 +1,9 @@
+{
+	"headless": true,
+	"usingCustomBinary": false,
+    "firefoxBinary": "C:\\Users\\dinicola.cri.2005\\AppData\\Local\\Mozilla Firefox\\firefox.exe",
+    
+    "usingProxy": false,
+    "proxyIp": "181.12.99.204",
+    "proxyPort": 8080
+}
