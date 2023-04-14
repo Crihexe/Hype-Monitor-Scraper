@@ -1,4 +1,4 @@
-package com.crihexe;
+package com.crihexe.scraping;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -15,6 +15,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+
+import com.crihexe.firefox.FirefoxEmulator;
+import com.crihexe.scraping.model.ScrapingRequest;
+import com.crihexe.utils.ScraperJSONBuilder;
+import com.crihexe.utils.Utils;
 
 public class ScraperService {
 	

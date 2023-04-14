@@ -1,4 +1,4 @@
-package com.crihexe;
+package com.crihexe.utils;
 
 import java.awt.image.BufferedImage;
 import java.io.BufferedWriter;

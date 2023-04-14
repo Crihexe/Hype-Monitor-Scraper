@@ -1,4 +1,4 @@
-package com.crihexe;
+package com.crihexe.scraping.model;
 
 import java.util.List;
 

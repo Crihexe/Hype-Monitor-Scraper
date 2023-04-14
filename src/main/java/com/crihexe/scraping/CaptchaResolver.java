@@ -1,4 +1,4 @@
-package com.crihexe;
+package com.crihexe.scraping;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -17,6 +17,10 @@ import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import com.crihexe.firefox.FirefoxEmulator;
+import com.crihexe.utils.Utils;
+import com.crihexe.utils.option.Options;
 
 public class CaptchaResolver {
 	

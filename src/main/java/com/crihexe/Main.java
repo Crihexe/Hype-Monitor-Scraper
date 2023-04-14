@@ -5,6 +5,12 @@ import java.io.File;
 
 import org.json.JSONArray;
 
+import com.crihexe.connector.RepositoryUpdater;
+import com.crihexe.firefox.FirefoxEmulator;
+import com.crihexe.scraping.ScraperService;
+import com.crihexe.utils.option.OptionLoader;
+import com.crihexe.utils.option.Options;
+
 public class Main {
 	
 	private RepositoryUpdater repo;

@@ -1,5 +1,5 @@
 {
-	"headless": true,
+	"headless": false,
 	"usingCustomBinary": false,
     "firefoxBinary": "C:\\Users\\dinicola.cri.2005\\AppData\\Local\\Mozilla Firefox\\firefox.exe",
     

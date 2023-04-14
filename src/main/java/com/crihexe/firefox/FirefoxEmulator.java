@@ -1,4 +1,4 @@
-package com.crihexe;
+package com.crihexe.firefox;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -18,6 +18,9 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.interactions.Actions;
+
+import com.crihexe.utils.Utils;
+import com.crihexe.utils.option.Options;
 
 public class FirefoxEmulator {
 

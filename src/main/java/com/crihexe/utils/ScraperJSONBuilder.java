@@ -1,4 +1,4 @@
-package com.crihexe;
+package com.crihexe.utils;
 
 import java.util.Arrays;
 import java.util.List;
