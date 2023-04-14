@@ -30,6 +30,9 @@ public class FirefoxEmulator {
 	private static boolean running = false;
 
 	public static void setup() {
+		if(!Options.autoDetectGeckoDriver) 
+			System.setProperty("webdriver.gecko.driver", Options.geckoDriverPath);
+		
 		options = createOptions();
 	}
 

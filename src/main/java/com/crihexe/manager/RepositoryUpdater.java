@@ -1,4 +1,4 @@
-package com.crihexe.connector;
+package com.crihexe.manager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,6 +13,8 @@ import org.json.JSONArray;
 
 import com.crihexe.scraping.model.ScrapingRequest;
 import com.crihexe.utils.option.Options;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class RepositoryUpdater {
@@ -46,7 +48,7 @@ public class RepositoryUpdater {
 		return false;
 	}
 	
-	public List<ScrapingRequest> getScrapingRequests() throws Exception {
+	public List<ScrapingRequest> getScrapingRequests() {
 		List<ScrapingRequest> requests = new ArrayList<ScrapingRequest>();
 		
 		String json = "["
@@ -63,7 +65,15 @@ public class RepositoryUpdater {
 			+ "]";
 		System.out.println(body);*/
 		System.out.println(json);
-		requests = Arrays.asList(mapper.readValue(json, ScrapingRequest[].class));
+		try {
+			requests = Arrays.asList(mapper.readValue(json, ScrapingRequest[].class));
+		} catch (JsonMappingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		
 		/*HttpResponse response = getRequest(healthUrl);

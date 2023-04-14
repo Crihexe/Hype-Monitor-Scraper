@@ -5,8 +5,9 @@ import java.io.File;
 
 import org.json.JSONArray;
 
-import com.crihexe.connector.RepositoryUpdater;
 import com.crihexe.firefox.FirefoxEmulator;
+import com.crihexe.manager.RepositoryUpdater;
+import com.crihexe.manager.ScrapingManager;
 import com.crihexe.scraping.ScraperService;
 import com.crihexe.utils.option.OptionLoader;
 import com.crihexe.utils.option.Options;
@@ -15,6 +16,7 @@ public class Main {
 	
 	private RepositoryUpdater repo;
 	private ScraperService scraper;
+	private ScrapingManager manager;
 
 	public Main() throws Exception {
 		System.out.println(new File("./options.json").getAbsolutePath());
@@ -27,11 +29,10 @@ public class Main {
 			//System.exit(4);
 		}
 		
-		if(!Options.autoDetectGeckoDriver) 
-			System.setProperty("webdriver.gecko.driver", Options.geckoDriverPath);
-		
 		FirefoxEmulator.setup();
 		FirefoxEmulator.start();
+		
+		manager = new ScrapingManager(repo);
 		
 		scraper = new ScraperService();
 		JSONArray result = scraper.scrapeApi(repo.getScrapingRequests());
@@ -39,10 +40,6 @@ public class Main {
 		repo.uploadScrapingResults(result);
 		
 		FirefoxEmulator.stop();
-	}
-	
-	public static void change(Integer offset) {
-		offset++;
 	}
 	
 	public static void main(String[] args) throws Exception {
