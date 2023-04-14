@@ -9,6 +9,19 @@ import org.json.JSONObject;
 
 public class ScraperJSONBuilder {
 	
+	/*
+	 * TODO TODO TODO TODO
+	 * 
+	 * fare in modo che il richiedente possa scegliere da quale percorso prendere il valore e metterlo in una certa posizione nel json di output
+	 * tipo "Product.name as data.nome"
+	 * 
+	 * e poi fare in modo che una richiesta possa andare a scrapare due endpoint diversi per formare un solo ed unico json di output, e per
+	 * ogni endpoint vengono specificato quali chiavi prendere
+	 * 
+	 * TODO TODO TODO TODO
+	 * 
+	 */
+	
 	private static long lastObjID = Long.MIN_VALUE;
 	
 	private JSONObject sourceObj;

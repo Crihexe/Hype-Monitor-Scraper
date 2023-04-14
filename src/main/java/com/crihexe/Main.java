@@ -1,6 +1,5 @@
 package com.crihexe;
 
-import java.awt.Color;
 import java.io.File;
 
 import org.json.JSONArray;
@@ -10,7 +9,6 @@ import com.crihexe.manager.RepositoryUpdater;
 import com.crihexe.manager.ScrapingManager;
 import com.crihexe.scraping.ScraperService;
 import com.crihexe.utils.option.OptionLoader;
-import com.crihexe.utils.option.Options;
 
 public class Main {
 	

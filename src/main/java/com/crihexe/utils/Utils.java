@@ -11,6 +11,8 @@ import javax.imageio.ImageIO;
 
 import org.json.JSONObject;
 
+import com.google.common.base.Charsets;
+
 public class Utils {
 	
 	public static BufferedImage getImage(byte[] bytes) throws IOException {
@@ -29,7 +31,7 @@ public class Utils {
 	}
 	
 	public static void saveJSONtoFile(JSONObject obj, int indentFactor, File file) throws IOException {
-		BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+		BufferedWriter bw = new BufferedWriter(new FileWriter(file, Charsets.UTF_8));
 		
 		bw.write(obj.toString(indentFactor));
 		
