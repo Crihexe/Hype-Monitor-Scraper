@@ -33,7 +33,8 @@ public class Main {
 		manager = new ScrapingManager(repo);
 		
 		scraper = new ScraperService();
-		JSONArray result = scraper.scrapeApi(repo.getScrapingRequests());
+//		JSONArray result = scraper.scrapeApi(repo.getScrapingRequests());
+		JSONArray result = scraper.scrapeApiV2(repo.getScrapingRequestsV2());
 		System.out.println(result.toString());
 		repo.uploadScrapingResults(result);
 		

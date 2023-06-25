@@ -1,27 +1,22 @@
 package com.crihexe.scraping;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.util.List;
-
-import javax.imageio.ImageIO;
 
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.openqa.selenium.By;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 
 import com.crihexe.firefox.FirefoxEmulator;
 import com.crihexe.scraping.model.ScrapingRequest;
+import com.crihexe.scraping.model.ScrapingRequestV2;
 import com.crihexe.utils.ScraperJSONBuilder;
 import com.crihexe.utils.Utils;
 
 public class ScraperService {
+	
+
 	
 	private HttpClient http;
 	private CaptchaResolver captcha;
@@ -99,6 +94,24 @@ public class ScraperService {
 			result.put(scrapeApi(r));
 		
 		return result;
+	}
+	
+	public JSONArray scrapeApiV2(List<ScrapingRequestV2> requests) throws Exception {
+		
+		SearchEngine searchEngine = new SearchEngine(captcha);
+		for(int i = 0; i < requests.size(); i++) 
+			searchEngine.append(requests.get(i).sku);
+		
+		JSONObject json = new JSONObject(searchEngine.search());
+		
+		ScraperJSONBuilder jsonBuilder = new ScraperJSONBuilder(json).setSimpleMode(true);
+		jsonBuilder.putKey("props.pageProps.req.appContext.states.query.value.queries[99999].state.data.browse.results.edges[*].node");	// il 99999 è un numero grande che non ci sarà mai nel risultato. per come funziona getJSONArrayBounds() mettendo un numero troppo grande prenderà sempre e solo l'ultimo indice
+		
+		JSONArray simpleJSON = jsonBuilder.buildSimple();
+		
+		System.out.println("scraper output: " + simpleJSON);
+		
+		return simpleJSON;
 	}
 
 }

@@ -8,10 +8,12 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import com.crihexe.scraping.model.ScrapingRequest;
+import com.crihexe.scraping.model.ScrapingRequestV2;
+import com.crihexe.utils.ScraperJSONBuilder;
 import com.crihexe.utils.option.Options;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -46,6 +48,24 @@ public class RepositoryUpdater {
 		if(response.getStatusLine().getStatusCode() == 200)
 			return true;
 		return false;
+	}
+	
+	public List<ScrapingRequestV2> getScrapingRequestsV2() {
+		List<ScrapingRequestV2> requests = new ArrayList<ScrapingRequestV2>();
+		
+		String json = "["
+				+ "{\"sku\":\"DD1391-100\",\"lastMarketUpdate\":\"1686595894581\"},"
+				+ "{\"sku\":\"DV1748-601\",\"lastMarketUpdate\":\"1686695894581\"},"
+				+ "{\"sku\":\"DZ4137-106\",\"lastMarketUpdate\":\"1686795894581\"}"
+				+ "]";
+		
+		try {
+			requests = Arrays.asList(mapper.readValue(json, ScrapingRequestV2[].class));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return requests;
 	}
 	
 	public List<ScrapingRequest> getScrapingRequests() {
@@ -83,8 +103,22 @@ public class RepositoryUpdater {
 		return requests;
 	}
 	
-	public void uploadScrapingResults(JSONArray result) {
+	public JSONObject prepareUploadJSON(JSONArray result) {
+		ScraperJSONBuilder jsonBuilder = new ScraperJSONBuilder(new JSONObject().put("data", result));
+		jsonBuilder.putKey("data[*].productTraits[0].value", "price");
+		jsonBuilder.putKey("data[*].market.bidAskData.highestBid", "highest_bid");
+		jsonBuilder.putKey("data[*].market.bidAskData.lowestAsk", "lowest_ask");
+		jsonBuilder.putKey("data[*].market.salesInformation.lastSale", "last_sale");
+		jsonBuilder.putKey("data[*].market.salesInformation.salesThisPeriod", "sales_last_72");
+		jsonBuilder.putKey("data[*].market.statistics.last90Days.averagePrice", "averageDeadstockPrice");
 		
+		
+		return jsonBuilder.build();
+	}
+	
+	public void uploadScrapingResults(JSONArray result) {
+		JSONObject json = prepareUploadJSON(result);
+		System.out.println("uploading json:" + json);
 	}
 
 }
