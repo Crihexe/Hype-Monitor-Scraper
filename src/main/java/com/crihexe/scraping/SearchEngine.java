@@ -5,10 +5,12 @@ import java.util.ArrayList;
 import org.openqa.selenium.By;
 
 import com.crihexe.firefox.FirefoxEmulator;
+import com.crihexe.japi.response.Sneaker;
 
 public class SearchEngine {
 	
-	private static final String SEARCH_URL = "https://stockx.com/search?s=";
+	private static final String STOCKX_URL = "https://stockx.com";
+	private static final String SEARCH_URL = STOCKX_URL + "/search?s=";
 	private static final String QUOTES_ENC = "%22";
 	private static final String OR_ENC = "%2B";
 	
@@ -21,8 +23,14 @@ public class SearchEngine {
 	}
 	
 	public String search() throws Exception {
-		String url = generateSearchQueryURL();
-		
+		return search(generateSearchQueryURL());
+	}
+	
+	public String search(Sneaker sneaker) throws Exception {
+		return search(STOCKX_URL + "/" + sneaker.slug);
+	}
+	
+	public String search(String url) throws Exception {
 		FirefoxEmulator.open(url);
 		captcha.bypass(true);
 		

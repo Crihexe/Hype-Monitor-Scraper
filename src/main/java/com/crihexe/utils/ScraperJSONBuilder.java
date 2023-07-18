@@ -77,6 +77,15 @@ public class ScraperJSONBuilder {
 		return keyName;
 	}
 	
+	public void putAs(String path, String as) {
+		List<String> keyNames = Arrays.asList(path.split("\\."));
+		
+		Object result = newObjGetKey(keyNames, 0, sourceObj);
+		targetObj.put(as, result);
+		
+		
+	}
+	
 	/*private JSONObject recursiveObjPutKeyAs(List<String> keyNames, int depth, List<String> asNames, JSONObject output, JSONObject input) {
 		if(depth >= keyNames.size()) {// TODO ricontrollare TODO TODO TODO TODO TODO soprattutto nel caso degli array un gran bel bordello TODO TODO TODO TODO
 			return input;	// oppure "new JSONObject();" oppure "output;"
@@ -127,6 +136,37 @@ public class ScraperJSONBuilder {
 		String key = getKey(asNames, depthAs);
 		
 		return recursiveObjGetAs(asNames, depthAs+1, output.has(key) ? output : output.put(key, new JSONObject()));
+	}
+	
+	public Object newObjGetKey(List<String> keyNames, int depth, Object currObj) {
+		if(depth == keyNames.size()) return currObj;
+//		System.out.println("NEW: depth" + depth);
+//		System.out.println("NEW: " + currObj);
+		if(currObj instanceof JSONObject) {
+			JSONObject currJSONObj = (JSONObject) currObj;
+			
+			String key = getKey(keyNames, depth);
+			
+			Object next = currJSONObj.get(key);
+			
+			return newObjGetKey(keyNames, depth+1, next);
+		} else if(currObj instanceof JSONArray) {
+			JSONArray currJSONArr = (JSONArray) currObj;
+			
+			String key = getKey(keyNames, depth);
+			
+			Pair<Integer, Integer> bounds = getJSONArrayBounds(keyNames.get(depth-1), currJSONArr.length());
+			
+			if(bounds.second == 1) return newObjGetKey(keyNames, depth, currJSONArr.get(bounds.first));
+			
+			JSONArray nexts = new JSONArray();
+			for(int i = bounds.first, len = bounds.second+bounds.first; i < len; i++) {
+				Object next = currJSONArr.get(i);
+				nexts.put(newObjGetKey(keyNames, depth, next));
+			}
+			
+			return nexts;
+		} else return currObj;
 	}
 	
 	private JSONObject recursiveObjPutKey(List<String> keyNames, int depth, JSONObject output, JSONObject input) {
@@ -206,7 +246,7 @@ public class ScraperJSONBuilder {
 		// first = offset   second = length
 		Pair<Integer, Integer> bounds = getJSONArrayBounds(keyNames.get(depth), input.length());
 		
-		System.out.println("from " + keyNames.get(depth) + " -> " + bounds);
+//		System.out.println("from " + keyNames.get(depth) + " -> " + bounds);
 		
 		for(int i = bounds.first, len = bounds.second+bounds.first; i < len; i++) {
 			Object inputNext = input.get(i);
@@ -231,7 +271,7 @@ public class ScraperJSONBuilder {
 		// first = offset   second = length
 		Pair<Integer, Integer> bounds = getJSONArrayBounds(keyNames.get(depth), input.length());
 		
-		System.out.println("from " + keyNames.get(depth) + " -> " + bounds);
+//		System.out.println("from " + keyNames.get(depth) + " -> " + bounds);
 		
 		for(int i = bounds.first, len = bounds.second+bounds.first; i < len; i++) {
 			Object inputNext = input.get(i);
