@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.HttpClients;
+import org.apache.hc.client5.http.classic.HttpClient;
+import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.core5.http.HttpResponse;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,6 +16,7 @@ import com.crihexe.japi.JAPI;
 import com.crihexe.japi.exception.Life360Exception;
 import com.crihexe.japi.request.GetScrapingRequest;
 import com.crihexe.japi.request.UploadScrapingResultsRequest;
+import com.crihexe.japi.request.UploadSneakerMediaRequest;
 import com.crihexe.scraping.model.ScrapingRequest;
 import com.crihexe.scraping.model.ScrapingRequestV2;
 import com.crihexe.utils.ScraperJSONBuilder;
@@ -54,7 +55,7 @@ public class RepositoryUpdater {
 	
 	public boolean health() throws Exception {
 		HttpResponse response = getRequest(healthUrl);
-		if(response.getStatusLine().getStatusCode() == 200)
+		if(response.getCode() == 200)
 			return true;
 		return false;
 	}
@@ -134,17 +135,17 @@ public class RepositoryUpdater {
 			
 			System.out.println("Looking for keys in: " + result.getJSONObject(i));
 			
-			jsonBuilder.putAs("id", "id");
-			jsonBuilder.putAs("slug", "slug");
-			jsonBuilder.putAs("sku", "sku");
-			jsonBuilder.putAs("status", "status");
+			jsonBuilder.putAs(Options.sneakerKey_id, Options.sneakerKey_id);
+			jsonBuilder.putAs(Options.sneakerKey_slug, Options.sneakerKey_slug);
+			jsonBuilder.putAs(Options.sneakerKey_sku, Options.sneakerKey_sku);
+			jsonBuilder.putAs(Options.sneakerKey_status, Options.sneakerKey_status);
 			
-			jsonBuilder.putAs("productTraits[0].value", "retail");
-			jsonBuilder.putAs("market.bidAskData.highestBid", "highestBid");
-			jsonBuilder.putAs("market.bidAskData.lowestAsk", "lowestAsk");
-			jsonBuilder.putAs("market.salesInformation.lastSale", "lastSale");
-			jsonBuilder.putAs("market.salesInformation.salesThisPeriod", "salesLast72");
-			jsonBuilder.putAs("market.statistics.last90Days.averagePrice", "averagePrice");
+			jsonBuilder.putAs(Options.stockxMarketUpdate_retail, Options.sneakerKey_retail);
+			jsonBuilder.putAs(Options.stockxMarketUpdate_highestBid, Options.sneakerKey_highestBid);
+			jsonBuilder.putAs(Options.stockxMarketUpdate_lowestAsk, Options.sneakerKey_lowestAsk);
+			jsonBuilder.putAs(Options.stockxMarketUpdate_lastSale, Options.sneakerKey_lastSale);
+			jsonBuilder.putAs(Options.stockxMarketUpdate_salesLast72, Options.sneakerKey_salesLast72);
+			jsonBuilder.putAs(Options.stockxMarketUpdate_averagePrice, Options.sneakerKey_averagePrice);
 			
 			finalArray.put(jsonBuilder.build());
 		}
@@ -166,7 +167,23 @@ public class RepositoryUpdater {
 		}
 		
 	}
-
+	
+	public void uploadSneakerMedia(String slug, byte[] image, List<byte[]> all360Images, List<byte[]> gallery) {
+		try {
+			japi.send(new UploadSneakerMediaRequest(Options.uploadMediaImagePath, slug, Options.uploadMediaImageName, image));
+			
+			for(int i = 0; i < all360Images.size(); i++) {
+				japi.send(new UploadSneakerMediaRequest(Options.uploadMedia360Path, slug, String.format(Options.uploadMediaNamingFormat, i), all360Images.get(i)));
+			}
+			for(int i = 0; i < gallery.size(); i++) {
+				japi.send(new UploadSneakerMediaRequest(Options.uploadMediaGalleryPath, slug, String.format(Options.uploadMediaNamingFormat, i), gallery.get(i)));
+			}
+		} catch (NullPointerException | JSONException | IllegalArgumentException | IllegalAccessException
+				| Life360Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void uploadFullSneakerResearch(JSONObject outputSneaker) {
 		System.out.println(new JSONArray().put(outputSneaker).toString());
 		try {

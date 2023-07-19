@@ -46,6 +46,64 @@ public class Options {
 	// captcha report
 	public static Integer captchaReportIndentFactor = 2;
 	
+	// sneaker json keys
+	public static String sneakerKey_id = "id";
+	public static String sneakerKey_slug = "slug";
+	public static String sneakerKey_status = "status";
+	public static String sneakerKey_releaseDate = "releaseDate";
+	public static String sneakerKey_name = "name";
+	public static String sneakerKey_color = "color";
+	public static String sneakerKey_colorway = "colorway";
+	public static String sneakerKey_retail = "retail";
+	public static String sneakerKey_brand = "brand";
+	public static String sneakerKey_image = "image";
+	public static String sneakerKey_sku = "sku";
+	public static String sneakerKey_primaryModel = "primaryModel";
+	public static String sneakerKey_secondaryModel = "secondaryModel";
+	public static String sneakerKey_gender = "gender";
+	public static String sneakerKey_description = "description";
+	public static String sneakerKey_highestBid = "highestBid";
+	public static String sneakerKey_lowestAsk = "lowestAsk";
+	public static String sneakerKey_lastSale = "lastSale";
+	public static String sneakerKey_salesLast72 = "salesLast72";
+	public static String sneakerKey_averagePrice = "averagePrice";
+	public static String sneakerKey_stockxURL = "stockxURL";
+	
+	// stockx json keys
+	public static String stockxSlugKey = "urlKey";
+	// stockx json keys marketupdate
+	public static String stockxMarketUpdate_retail = "productTraits[0].value";
+	public static String stockxMarketUpdate_highestBid = "market.bidAskData.highestBid";
+	public static String stockxMarketUpdate_lowestAsk = "market.bidAskData.lowestAsk";
+	public static String stockxMarketUpdate_lastSale = "market.salesInformation.lastSale";
+	public static String stockxMarketUpdate_salesLast72 = "market.salesInformation.salesThisPeriod";
+	public static String stockxMarketUpdate_averagePrice = "market.statistics.last90Days.averagePrice";
+	// stockx json keys fullsneaker research
+	public static String stockxFullSneakerResearch_releaseDate = "traits[3].value";
+	public static String stockxFullSneakerResearch_name = "title";
+	public static String stockxFullSneakerResearch_colorway = "traits[1].value";
+	public static String stockxFullSneakerResearch_retail = "traits[2].value";
+	public static String stockxFullSneakerResearch_brand = "brand";
+	public static String stockxFullSneakerResearch_primaryModel = "primaryTitle";
+	public static String stockxFullSneakerResearch_secondaryModel = "secondaryTitle";
+	public static String stockxFullSneakerResearch_gender = "gender";
+	public static String stockxFullSneakerResearch_description = "description";
+	public static String stockxFullSneakerResearch_highestBid = "market.bidAskData.highestBid";
+	public static String stockxFullSneakerResearch_lowestAsk = "market.bidAskData.lowestAsk";
+	public static String stockxFullSneakerResearch_lastSale = "market.salesInformation.lastSale";
+	public static String stockxFullSneakerResearch_salesLast72 = "market.salesInformation.salesLast72Hours";
+	public static String stockxFullSneakerResearch_media = "media";
+	// stockx json paths
+	public static String stockxMarketUpdateProductPath = "props.pageProps.req.appContext.states.query.value.queries[99999].state.data.browse.results.edges[*].node";
+	public static String stockxFullSneakerResearchProductPath = "props.pageProps.req.appContext.states.query.value.queries[99999].state.data.product";
+	
+	// upload media
+	public static String uploadMediaImagePath = "/";
+	public static String uploadMedia360Path = "/360/";
+	public static String uploadMediaGalleryPath = "/gallery/";
+	public static String uploadMediaNamingFormat = "%02d";
+	public static String uploadMediaImageName = "image";
+	
 	public static void setOption(String optionName, Object value) throws Exception {
 		Field[] fields = Options.class.getFields();
 		for(Field f : fields)

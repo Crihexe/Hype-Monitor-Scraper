@@ -52,6 +52,7 @@ public class FirefoxEmulator {
 		}
 		
 		profile.setPreference("devtools.jsonview.enabled", false);
+		profile.setPreference("javascript.enabled", false);
 		
 		if(Options.headless) options.addArguments("-headless");
 		if(Options.usingCustomBinary) options.setBinary(getFirefoxBinary());
